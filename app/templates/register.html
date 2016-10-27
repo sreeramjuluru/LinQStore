@@ -1,0 +1,90 @@
+
+
+{% block body %}
+    <form action="/register/" method="post" >
+        <label for="formGroupExampleInput">{{form.email.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="email" name="email" placeholder= "Customer Email" type="email">
+             {% if form.errors["email"] %}
+                 <ul class="errors">
+     {% for error in form.errors["email"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+        <label for="formGroupExampleInput">{{form.name.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="name" name="name" placeholder= "Customer Name" type="text">
+             {% if form.errors["name"] %}
+                 <ul class="errors">
+     {% for error in form.errors["name"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+
+        <label for="formGroupExampleInput">{{form.mobile_num.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="name" name="mobile_num" placeholder= "Mobile Number" type="text">
+             {% if form.errors["mobile_num"] %}
+                 <ul class="errors">
+     {% for error in form.errors["mobile_num"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+        <label for="formGroupExampleInput">{{form.password.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="password" name="password" placeholder= "Password" type="text">
+             {% if form.errors["password"] %}
+                 <ul class="errors">
+     {% for error in form.errors["password"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+        <label for="formGroupExampleInput">{{form.confirm.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="confirm" name="confirm" placeholder= "Confirm password" type="text">
+             {% if form.errors["confirm"] %}
+                 <ul class="errors">
+     {% for error in form.errors["confirm"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+        <label for="formGroupExampleInput">{{form.affliate_id.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="affliate_id" name="affliate_id" placeholder= "affliate_id" type="text">
+             {% if form.errors["affliate_id"] %}
+                 <ul class="errors">
+     {% for error in form.errors["affliate_id"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+        <label for="formGroupExampleInput">{{form.store.label}}</label>
+{{form.store}}
+             {% if form.errors["store"] %}
+                 <ul class="errors">
+     {% for error in form.errors["store"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+<input type="submit" class="btn btn-info" value="Submit">
+
+
+</form>
+
+
+{% endblock %} 

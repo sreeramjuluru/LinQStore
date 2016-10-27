@@ -1,0 +1,214 @@
+{% extends "basic_header.html" %}
+
+
+{% block body %}
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Orders
+        <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-th"></i> Home</a></li>
+        <li class="active">Orders</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+
+    <section class="content">
+
+
+      <div class="row">
+        <div class="col-xs-12">
+
+          <div class="box">
+            <!--div class="box-header">
+              <h3 class="box-title">Data Table With Full Features</h3>
+            </divi-->
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="order_table" class="table table-bordered table-striped">
+
+   <thead>
+
+      <tr>
+               <th>Ordered Time</th>
+
+         <th>Order Id</th>
+         <th >Item Name</th>
+         <th> Total Cost </th>
+<th>Advance Paid </th>
+
+<th> Remaining Amount Payable </th>
+
+<th> Customer </th>
+         <th> Order Action </th>
+
+
+      </tr>
+   </thead>
+
+   <tbody>
+
+
+
+{% for x in orders %}
+<tr id = {{"order_num1_" + x.linq_order_num|string}}>
+
+ <td> {{ x.order_date_time }} </td>
+ <td> {{ x.order_id }} </td>
+ <td> {{ x.item_name }} </td>
+<td>  {{x.item_cost + x.website_shipping_cost + x.linq_shipping_cost }}  </td>
+<td>  {{x.advance_amount }} </td>
+<td> {{x.item_cost + x.website_shipping_cost + x.linq_shipping_cost - x.advance_amount }} </td>
+<td> {{ x.name  }}, {{x.mobile_num }}  </td>
+
+<td id={{"td_"+ x.linq_order_num|string  }} >
+
+{% if x.order_status_id == 1 %}
+
+        <a role="presentation" data-toggle="modal" data-target={{"#exampleModal1_"+ x.linq_order_num|string  }}  href="#" onclick="return execute(&quot;{{x.linq_order_num|string}}&quot;);"><span class="glyphicon glyphicon-list-alt " style="color:orange"></span><b>  Receive Order </b></a>
+
+
+{% endif %}
+
+{% if x.order_status_id == 2 %}
+
+        <a role="presentation" data-toggle="modal" data-target={{"#exampleModal29_"+  x.linq_order_num|string  }}   href="#" onclick="return deliver_order(&quot;{{x.linq_order_num|string}}&quot;);"><span class="glyphicon glyphicon-shopping-cart" style="color:crimson"></span><b> Deliver Order </b></a>
+
+{% endif %}
+
+{% if x.order_status_id == 3 %}
+
+ <a role="presentation" data-toggle="modal" data-target="#" ><span class="glyphicon glyphicon-ok-sign" style="color:green"></span><b>  Order Delivered </b> </a>
+
+{% endif %}
+
+{% if x.order_status_id == 4 %}
+
+ <a role="presentation" data-toggle="modal" data-target="#"  ><span  style="color:red"><b><i class="ionicons ion-arrow-return-left"></b></i></span> <b> Return Initiated </b> </a>
+
+{% endif %}
+
+</td>
+{% endfor %}
+</tr>
+</tbody>
+
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+</section>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script>
+
+  $(function () {
+    $("#order_table").DataTable({autoWidth: false, //step 1
+     "order": [[0, "desc"]],
+ columnDefs: [
+      { width: '130px', targets: 0 },
+      { width: '140px', targets: 1 },
+{ width: '100px', targets: 7 }
+   ]
+   });
+  });
+
+
+function execute(linq_order_num) {
+console.log("Chimpiri");
+var result = "";
+console.log(linq_order_num);
+var tableRow = document.getElementById("td_" + String(linq_order_num));
+console.log(tableRow);
+console.log("lup");
+console.log(tableRow);
+var modalId = "exampleModal1_" +  String(linq_order_num);
+console.log(modalId);
+jQuery.ajax ({
+    url: "/receive-order/",
+    type: "POST",
+    data: JSON.stringify({"linq_order_num":linq_order_num}),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+        console.log(data);
+        result = data;
+$.notify("Successfully received the product", "success");
+
+var nextStep = '<a role="presentation" data-toggle="modal"    href="#" onclick="return deliver_order(&quot;'+ linq_order_num + '&quot;);"><span class="glyphicon glyphicon-shopping-cart" style="color:crimson"></span><b> Deliver  Order   </b> </a>';
+tableRow.innerHTML = nextStep;
+
+    },
+
+  error: function(xhr, textStatus, errorThrown) {
+console.log("errory");
+console.log(xhr.responseText);
+
+$.notify("Internal Error!");
+
+console.log(textStatus);
+console.log(errorThrown);
+    // Handle error
+  }
+
+});
+return result;
+}
+
+function deliver_order(linq_order_num) {
+console.log("Chimpiri");
+var result = "";
+var tableRow = document.getElementById("td_" + String(linq_order_num));
+jQuery.ajax ({
+    url: "/deliver-order/",
+    type: "POST",
+    data: JSON.stringify({"linq_order_num":linq_order_num}),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+        console.log(data);
+        result = data;
+      console.log("receiveddy");
+
+$.notify("Successfully delivered  the product", "success");
+
+var nextStep = ' <a role="presentation" data-toggle="modal" data-target="#" ><span class="glyphicon glyphicon-ok-sign" style="color:green"></span><b>  Order Delivered </b> </a>';
+tableRow.innerHTML = nextStep;
+
+    },
+
+  error: function(xhr, textStatus, errorThrown) {
+console.log("errory");
+console.log(xhr.responseText);
+$.notify("Internal Error!");
+
+console.log(textStatus);
+console.log(errorThrown);
+    // Handle error
+  }
+
+});
+return result;
+}
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,524 @@
+<style type="text/css" id="core-notify">.notifyjs-corner {
+	position: fixed;
+	margin: 5px;
+	z-index: 1050;
+}
+.no-float {
+  float: none !important;
+}
+.notifyjs-corner .notifyjs-wrapper,
+.notifyjs-corner .notifyjs-container {
+	position: relative;
+	display: block;
+	height: inherit;
+	width: inherit;
+	margin: 3px;
+}
+
+.notifyjs-wrapper {
+	z-index: 1;
+	position: absolute;
+	display: inline-block;
+	height: 0;
+	width: 0;
+}
+
+.notifyjs-container {
+	display: none;
+	z-index: 1;
+	position: absolute;
+}
+
+.notifyjs-hidable {
+	cursor: pointer;
+}
+
+[data-notify-text],[data-notify-html] {
+	position: relative;
+}
+
+.notifyjs-arrow {
+	position: absolute;
+	z-index: 2;
+	width: 0;
+	height: 0;
+}</style>
+{% extends "basic_header.html" %}
+
+{% block body %}
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Dashboard
+        <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>{{total_orders_today}}</h3>
+
+              <p>Total Orders Today</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>{{ total_sales_today }}<sup style="font-size: 20px"> INR</sup></h3>
+
+              <p>Total Sales Today</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{total_orders_month}}</h3>
+
+              <p>Total Orders this month</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>{{total_sales_month }}<sup style="font-size: 20px"> INR</sup></h3>
+
+              <p>Total Sales this month</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+      <!-- Main row -->
+
+    <section class="content">
+          <div class="box">
+            <div class="box-body">
+
+
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Add Customer</a></li>
+    <li><a data-toggle="tab" href="#menu1" id="add_order_tab">Add Order</a></li>
+    <li><a data-toggle="tab" href="#menu2">Add Return</a></li>
+    <li><a data-toggle="tab" href="#menu3">Cancel Order</a></li>
+  </ul>
+</br>
+<div id = "alert_placeholder"></div>
+
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+       <form role="form"  action="javascript:void(0);"  method="post" id="add_customer_form">
+        <div class="col-md-12 no-float">
+
+                <div class="form-group">
+ <div class="col-md-6 no-float">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+</div>
+ <div class="col-md-6 no-float">
+                  <label for="exampleInputEmail2">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Customer Name">
+</div>
+                </div>
+
+                <div class="form-group ">
+                  <label for="exampleInputEmail2">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Customer Name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail3">Mobile Number</label>
+                  <input type="text" class="form-control" id="mobile_num" name="mobile_num" placeholder="Mobile Number">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail4">Alternate Mobile Number</label>
+                  <input type="text" class="form-control" id="alternate_mobile_number" name="alternate_mobile_number" placeholder="Alternate Mobile Number">
+                </div>
+
+                  <label for="exampleInputEmail5">Date Of Birth</label>
+
+<div class="input-group date">
+
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="date" class="form-control pull-right" id="date_of_birth" name="date_of_birth" >
+
+</div>
+</br>
+
+<div class="form-group">
+                <label>
+                  <input type="radio" name="gender" id="male_check" class="minimal-red" value="Male" checked>
+Male
+                </label>
+                <label>
+                  <input type="radio" name="gender" id="female_check" class="minimal-red" value = "Female">
+Female
+                </label>
+              </div>
+
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" class="minimal-red" id="new_customer_for_amazon" checked>
+New Customer for Amazon
+                </label>
+              </div>
+
+
+
+</br>
+              <!-- /.box-body -->
+
+                       <button type="submit" onclick=add_customer() class="btn btn-primary">Add Customer</button>
+
+</div>
+            </form>
+
+    </div>
+    <div id="menu1" class="tab-pane fade">
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+       <form role="form"  action="javascript:void(0);"  method="post" id="add_order_form">
+
+        <div class="col-md-6">
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Product Name</label>
+                  <input type="text" class="form-control" id="item_name" name="item_name" placeholder="Product Name">
+                </div>
+
+
+
+                <div class="form-group ">
+                  <label for="exampleInputEmail2">Website Order Id</label>
+                  <input type="text" class="form-control" id="order_id" name="order_id" placeholder="Website Order Id">
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleInputEmail3">Item Cost</label>
+                  <input type="text" class="form-control" id="item_cost" name="item_cost" placeholder="Item cost">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail4">Website Shipping Cost</label>
+                  <input type="text" class="form-control" id="website_shipping_cost" name="website_shipping_cost" placeholder="Website Shipping Cost">
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleInputEmail4">LinQ Shipping Cost</label>
+                  <input type="text" class="form-control" id="linq_shipping_cost" name="linq_shipping_cost" placeholder="LinQ Shipping Cost">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail4">Advance Amount</label>
+                  <input type="text" class="form-control" id="advance_amount" name="advance_amount" placeholder="Advance Amount">
+                </div>
+
+
+                <div class="form-group">
+                  <label for="exampleInputEmail4">Order Category</label>
+
+                <select class="form-control select2" style="width: 100%;" id="order_category">
+<option  selected="selected" value="1">Mobiles</option><option value="2">Clothing</option><option value="3">Laptops/Desktops</option><option value="4">Mobile/Computer Accessories</option><option value="5">Large Home Appliances</option><option value="6">Sports/health</option><option value="7">Books</option><option value="8">Others</option>
+                </select>
+</div>
+
+                <div class="form-group">
+                  <label for="exampleInputEmail4">Total Cost</label>
+                  <input type="text" class="form-control" id="total_cost" name="total_cost" placeholder="Total Cost" readonly>
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleInputEmail4">Remaining Amount</label>
+                  <input type="text" class="form-control" id="remaining_amount" name="remaining_amount"  placeholder="Remaining Amount" readonly>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="exampleInputEmail4"> Customer </label>
+
+                <select id="custmer_id" class="form-control select2" style="width: 100%;">
+                </select>
+
+</div>
+
+
+
+</br>
+              <!-- /.box-body -->
+
+
+                       <button type="submit" onclick=add_order() class="btn btn-primary">Add Order</button>
+</div>
+
+            </form>
+
+    </div>
+
+    </div>
+</div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Menu 2</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    </div>
+    <div id="menu3" class="tab-pane fade">
+      <h3>Menu 3</h3>
+      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+console.log("lovari");
+function add_customer() {
+var email = document.getElementById('email').value;
+var mobile_number = document.getElementById('mobile_num').value;
+var name = document.getElementById('name').value;
+var alternate_mobile_number = document.getElementById('alternate_mobile_number').value;
+var date_of_birth = document.getElementById('date_of_birth').value;
+var gender = document.querySelector('input[name="gender"]:checked').value;
+var new_customer_for_amazon = $("#new_customer_for_amazon").attr("checked") ? 1 : 0;
+var phoneno = /^\d{10}$/;  
+
+if (name == null || name == "" || name == " ") {
+$.notify("Name cannot be empty!");
+return ;
+}
+
+if (mobile_number == null || mobile_number  == "" || mobile_number == " ") {
+$.notify("Mobile Number cannot be empty");
+return;
+}
+
+if (!mobile_number.match(phoneno)) {
+$.notify("Invalid Mobile Number");
+return ;
+}
+
+
+
+if (alternate_mobile_number == null ||alternate_mobile_number  == "" ||alternate_mobile_number  == " ") {
+$.notify("Alternate Mobile Number cannot be empty");
+return ;
+}
+
+if (!alternate_mobile_number.match(phoneno)) {
+$.notify("Invalid Alternate Mobile Number");
+return ;
+}
+
+
+if (date_of_birth == null || date_of_birth == "" || date_of_birth == " ") {
+$.notify("Date of Birth cannot be empty");
+return ;}
+
+jQuery.ajax ({
+    url: "/add-customer1/",
+    type: "POST",
+    data: JSON.stringify({"email":email, "mobile_number":mobile_number, "name":name,"alternate_mobile_number":alternate_mobile_number, "date_of_birth":date_of_birth ,"gender":gender , "is_new_customer_for_amazon": new_customer_for_amazon} ),
+
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+        console.log(data);
+       console.log("haha after delovering")
+$.notify("Successfully added the customer", "success");
+document.getElementById("add_customer_form").reset();
+ 
+},
+  error: function(xhr, textStatus, errorThrown) {
+console.log("errory"); 
+console.log(xhr.responseText);
+$.notify("Customer with the same phone number Already Exists");
+ 
+console.log(textStatus);
+console.log(errorThrown);
+    // Handle error
+  } 
+  
+});
+
+}
+
+console.log("beore musoe donw");
+$('#add_order_tab').mousedown(function(e) {
+console.log("Heipi");
+        loadurl = "/get-customers/",
+
+    $.get(loadurl, function(data) {
+console.log(data.json_list);
+
+
+var $el = $("#custmer_id");
+$el.empty();
+
+for (i = 0; i < data.json_list.length; i++) {
+    var de = data.json_list[i];
+    $el.append($("<option></option>").attr("value", de.id  ).text(de.mobile_number + "  " + de.name));
+}
+
+
+});
+return false;
+});
+
+function add_order() {
+var item_name = document.getElementById('item_name').value;
+var order_id = document.getElementById('order_id').value;
+var item_cost  = document.getElementById('item_cost').value;
+var website_shipping_cost  = document.getElementById('website_shipping_cost').value;
+var linq_shipping_cost = document.getElementById('linq_shipping_cost').value;
+var order_category  = document.getElementById('order_category').value;
+var customer  = document.getElementById('custmer_id').value;
+var advance_amount = document.getElementById('advance_amount').value;
+
+var decimal = /^-?\d*\.?\d*$/;
+
+if (item_name == null || item_name == "" || item_name == " ") {
+$.notify("Item Name cannot be empty");
+return ;
+}
+
+if (order_id == null || order_id  == "" || order_id == " ") {
+$.notify("Order Id cannot be empty");
+return ;
+}
+
+if (item_cost == null ||item_cost  == "" ||item_cost  == " ") {
+$.notify("Item Cost cannot be empty");
+return ;
+}
+
+if(!item_cost.match(decimal))  {
+
+$.notify("Please enter valid Item Cost ");
+return;
+
+}
+
+
+
+if (website_shipping_cost == null || website_shipping_cost == "" || website_shipping_cost == " ") {
+$.notify("Website Shipping cost cannot be empty");
+return ;
+}
+
+
+if(!website_shipping_cost.match(decimal))  {
+
+$.notify("Please enter valid Website Shipping Cost ");
+return;
+
+}
+
+if (linq_shipping_cost  == null || linq_shipping_cost == "" || linq_shipping_cost == " ") {
+$.notify("LinQ Shipping cost cannot be empty");
+return ;
+}
+
+
+
+if (advance_amount  == null || advance_amount  == "" || advance_amount  == " ") {
+$.notify("Advance Amount cannot be empty");
+return ;
+}
+
+
+
+jQuery.ajax ({
+    url: "/add-order/",
+    type: "POST",
+    data: JSON.stringify({"item_name":item_name, "order_id":order_id, "item_cost":item_cost ,"website_shipping_cost":website_shipping_cost, "linq_shipping_cost":website_shipping_cost ,"order_category": order_category , "customer": customer, "advance_amount":advance_amount} ),
+
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+        console.log(data);
+       console.log("haha after delovering");
+$.notify("Successfully created the order", "success");
+},
+  error: function(xhr, textStatus, errorThrown) {
+console.log("errory");
+console.log(xhr.responseText);
+$.notify("Internal Error! Try Again");
+
+console.log(textStatus);
+console.log(errorThrown);
+    // Handle error
+  }
+
+});
+
+}
+document.getElementById('website_shipping_cost').value = 0;
+document.getElementById('item_cost').value = 0;
+document.getElementById('total_cost').value= 0;
+
+document.getElementById('advance_amount').value= 0;
+document.getElementById('remaining_amount').value=0
+document.getElementById('linq_shipping_cost').value=0
+
+$("form#add_order_form :input").keyup(function() {
+
+
+item_cost = $('#item_cost').val();
+website_shipping_cost = $('#website_shipping_cost').val();
+linq_shipping_cost = $('#linq_shipping_cost').val();
+advance_amount = $('#advance_amount').val();
+ total_cost = (parseFloat(item_cost)) + (parseFloat(website_shipping_cost)) + (parseFloat(linq_shipping_cost));
+$('#total_cost').val(total_cost);
+
+$('#remaining_amount').val(total_cost - advance_amount);
+
+});
+
+</script>
+
+
+{% endblock %}
+

@@ -1,0 +1,151 @@
+{% extends "basic_header.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
+
+
+{% endblock %}
+
+
+{% block body %}
+
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Tracked Orders
+        <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-th"></i> Home</a></li>
+        <li class="active">Tracked Orders</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+
+    <section class="content">
+
+
+      <div class="row">
+        <div class="col-xs-12">
+
+          <div class="box">
+            <!--div class="box-header">
+              <h3 class="box-title">Data Table With Full Features</h3>
+            </divi-->
+            <!-- /.box-header -->
+            <div class="box-body">
+
+                <div class="input-group col-md-6">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" id="reservation" name="daterange">
+                </div>
+</br>
+<table id="example3" class = "table table-bordered table-striped">
+   <caption>Tracked Orders from Amazon. You will be paid commissions on these orders</caption>
+
+   <thead>
+
+      <tr>
+         <th><div style="width: 100px;">Title</div></th>
+         <th>Price</th>
+         <th> Date </th>
+         <th> Quantity </th>
+
+
+      </tr>
+   </thead>
+
+   <tbody>
+
+{% for x in items %}
+<tr>
+
+ <td> {{ x.title }} </td>
+ <td> {{ x.price }} </td>
+ <td> {{ x.date }} </td>
+ <td> {{ x.qty }} </td>
+
+
+
+
+</tr>
+
+{% endfor %}
+   </tbody>
+
+</table>
+
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+</section>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+
+
+<script>
+  $(function () {
+    $("#example3").DataTable({autoWidth: false, //step 1
+   columnDefs: [
+      { width: '500px', targets: 0 }, //step 2, column 1 out of 4
+      { width: '100px', targets: 1 }, //step 2, column 2 out of 4
+      { width: '130px', targets: 2 }  //step 2, column 3 out of 4
+   ]});
+  });
+    //$('#reservation').daterangepicker();
+
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var dd = $('#reservation').val();
+        var min = Date.parse(dd.substr(0,10));
+        var max = Date.parse(dd.substr(13));
+        var age = Date.parse( data[2].substring(0,10) ) || 0; // use data for the age column
+        if ( ( isNaN( min ) && isNaN( max ) ) ||
+             ( isNaN( min ) && age <= max ) ||
+             ( min <= age   && isNaN( max ) ) ||
+             ( min <= age   && age <= max ) )
+        {
+            return true;
+        }
+        return false;
+    }
+);
+
+$('input[name="daterange"]').daterangepicker(
+{
+    locale: {
+      format: 'YYYY-MM-DD'
+    },
+    startDate: moment().subtract(1, 'days'),
+    endDate: moment().subtract(1, 'days')
+
+}, 
+function(start, end, label) {
+$('#reservation').val(start.format('YYYY-MM-DD')  + ' - ' + end.format('YYYY-MM-DD'));
+var table = $('#example3').DataTable();
+table.draw();
+});
+
+
+</script>
+
+
+{% endblock %}
+
